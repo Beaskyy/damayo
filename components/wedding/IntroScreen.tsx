@@ -80,7 +80,7 @@ export function useBackgroundMusic() {
   useEffect(() => {
     const audio = new Audio("/assets/wedding-background-music-yxy0nS2O.mp3");
     audio.loop = true;
-    audio.volume = 0.5;
+    audio.volume = 0.0001;
     audioRef.current = audio;
 
     const onPlay = () => setIsPlaying(true);
@@ -101,6 +101,7 @@ export function useBackgroundMusic() {
   const startMusic = useCallback(() => {
     if (audioRef.current && !startedRef.current) {
       startedRef.current = true;
+      audioRef.current.volume = 0.05;
       const playPromise = audioRef.current.play();
       if (playPromise) {
         playPromise.catch(() => {});
@@ -111,6 +112,9 @@ export function useBackgroundMusic() {
   const toggleMute = useCallback(() => {
     if (audioRef.current) {
       audioRef.current.muted = !audioRef.current.muted;
+      if (!audioRef.current.muted) {
+        audioRef.current.volume = 0.05;
+      }
       setIsMuted(audioRef.current.muted);
     }
   }, []);

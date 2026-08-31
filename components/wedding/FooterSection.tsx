@@ -43,17 +43,6 @@ export function FooterSection({
         <p className="text-lg text-gold font-body font-semibold tracking-wide">
           {formatted}
         </p>
-        <p className="text-sm text-sage-dark/60 mt-12 font-body font-medium">
-          {t("footer.madeBy")}{" "}
-          <a
-            href="https://www.thedigitalyes.com"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="hover:text-gold transition-colors underline underline-offset-2 font-semibold"
-          >
-            The Digital Yes
-          </a>
-        </p>
       </motion.div>
     </footer>
   );

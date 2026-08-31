@@ -7,11 +7,20 @@ import { t } from "@/lib/wedding/content";
 interface HeroSectionProps {
   name1: string;
   name2: string;
+  family1?: string;
+  family2?: string;
 }
 
-export function HeroSection({ name1, name2 }: HeroSectionProps) {
+export function HeroSection({
+  name1,
+  name2,
+  family1 = "Oyeyinka",
+  family2 = "Adams-Kilani",
+}: HeroSectionProps) {
   const scrollToCountdown = () => {
-    document.getElementById("countdown")?.scrollIntoView({ behavior: "smooth" });
+    document
+      .getElementById("countdown")
+      ?.scrollIntoView({ behavior: "smooth" });
   };
 
   return (
@@ -36,7 +45,7 @@ export function HeroSection({ name1, name2 }: HeroSectionProps) {
             transition={{ duration: 0.8, delay: 0.2 }}
             className="text-sm md:text-base tracking-[0.4em] uppercase text-white mb-4 font-body font-semibold drop-shadow-lg"
           >
-            {t("hero.subtitle")}
+            The families of
           </motion.p>
           <motion.h1
             initial={{ opacity: 0, y: 30 }}
@@ -44,14 +53,14 @@ export function HeroSection({ name1, name2 }: HeroSectionProps) {
             transition={{ duration: 1, delay: 0.4 }}
             className="mb-0"
           >
-            <span className="font-display font-normal text-6xl md:text-8xl lg:text-9xl text-white block leading-[0.9] drop-shadow-lg">
-              {name1}
+            <span className="font-display font-normal text-4xl md:text-6xl text-white block leading-[0.9] drop-shadow-lg">
+              {family1}
             </span>
             <span className="font-display font-normal text-3xl md:text-4xl text-white my-4 block italic drop-shadow-lg">
               &
             </span>
-            <span className="font-display font-normal text-6xl md:text-8xl lg:text-9xl text-white block leading-[0.9] drop-shadow-lg">
-              {name2}
+            <span className="font-display font-normal text-4xl md:text-6xl text-white block leading-[0.9] drop-shadow-lg">
+              {family2}
             </span>
           </motion.h1>
         </div>

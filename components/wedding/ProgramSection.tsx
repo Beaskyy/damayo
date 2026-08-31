@@ -4,9 +4,21 @@ import { motion } from "framer-motion";
 import { t } from "@/lib/wedding/content";
 
 const schedule = [
-  { time: "14:00", labelKey: "program.arrival" as const, side: "right" as const },
-  { time: "14:30", labelKey: "program.ceremony" as const, side: "left" as const },
-  { time: "16:00", labelKey: "program.cocktails" as const, side: "right" as const },
+  {
+    time: "14:00",
+    labelKey: "program.arrival" as const,
+    side: "right" as const,
+  },
+  {
+    time: "14:30",
+    labelKey: "program.ceremony" as const,
+    side: "left" as const,
+  },
+  {
+    time: "16:00",
+    labelKey: "program.cocktails" as const,
+    side: "right" as const,
+  },
   { time: "18:00", labelKey: "program.dinner" as const, side: "left" as const },
   { time: "20:00", labelKey: "program.cake" as const, side: "right" as const },
   { time: "00:00", labelKey: "program.finish" as const, side: "left" as const },
@@ -107,19 +119,19 @@ export function DressCodeSection() {
             </h2>
             <div className="mb-8">
               <h3 className="font-display text-3xl md:text-4xl text-sage-dark mb-2">
-                {t("dress.women")}
+                White, Purple & Olive Green
               </h3>
               <p className="text-sage-dark/70 font-body text-sm italic leading-relaxed max-w-md mx-auto">
-                {t("dress.womenDesc")}
+                Please dress in the wedding colours of the day.
               </p>
             </div>
             <div className="w-16 h-px bg-sage/30 mx-auto mb-8" />
             <div>
               <h3 className="font-display text-3xl md:text-4xl text-sage-dark mb-2">
-                {t("dress.men")}
+                RSVP
               </h3>
               <p className="text-sage-dark/70 font-body text-sm italic leading-relaxed max-w-md mx-auto">
-                {t("dress.menDesc")}
+                Pamilerin 08143229655 | Femi 08160405511
               </p>
             </div>
           </motion.div>

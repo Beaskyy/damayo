@@ -5,24 +5,24 @@ import { t } from "@/lib/wedding/content";
 
 const preWeddingEvents = [
   {
-    title: "Welcome Drinks",
-    date: "Friday, September 11th, 2026",
-    time: "8:00 PM",
-    location: "Bodega García Hidalgo, Ronda",
+    title: "Church Service",
+    date: "Saturday, 5th December, 2026",
+    time: "8:00 AM",
+    location: "Hidden Manna Ministry, 1 Manna Arena Way, Ilesha, Osogbo",
     illustration: "/assets/sunday-lunch-illustration-Dn7RcvEs.png",
   },
   {
-    title: "Farewell Brunch",
-    date: "Sunday, September 13th, 2026",
-    time: "12:00 PM",
-    location: "Parador de Ronda (terrace)",
+    title: "Engagement",
+    date: "Saturday, 5th December, 2026",
+    time: "11:00 AM | Reception follows immediately",
+    location: "Osamdo House, Km 4, Gbongan-Ibadan Road, Osogbo",
     illustration: "/assets/teacup-illustration-LM5oRWej.png",
   },
 ];
 
 export function PreWeddingEventsSection() {
   return (
-    <section className="section-padding" style={{ backgroundColor: "#c5a46d" }}>
+    <section className="section-padding" style={{ backgroundColor: "#5b2e6d" }}>
       <div className="max-w-3xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -68,7 +68,7 @@ export function PreWeddingEventsSection() {
               />
               <h3
                 className="font-display text-3xl md:text-4xl mb-3"
-                style={{ color: "#825f30" }}
+                style={{ color: "#532a63" }}
               >
                 {event.title}
               </h3>

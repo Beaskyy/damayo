@@ -9,8 +9,9 @@ const greatVibes = Great_Vibes({
 });
 
 export const metadata: Metadata = {
-  title: "Wedding Damola & Ayomide",
-  description: "This invitation is exclusively for you",
+  title: "Wedding Oyindamola & Ayomide",
+  description:
+    "The families of Oyeyinka and Adams-Kilani invite you to the wedding ceremony of their children, Oyindamola & Ayomide.",
   other: {
     google: "notranslate",
   },

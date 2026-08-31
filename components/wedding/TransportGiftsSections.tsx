@@ -34,7 +34,7 @@ export function TransportSection() {
               </p>
             </div>
             <a
-              href="https://www.google.com/maps/search/?api=1&query=Finca+El+Olivar+Ronda+Malaga+Spain"
+              href="https://maps.google.com/?q=Hidden+Manna+Ministry+Osogbo"
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 font-body text-xs tracking-[0.15em] uppercase text-gold hover:text-sage-dark transition-colors border-b border-gold/40 hover:border-sage-dark pb-0.5"

@@ -235,7 +235,7 @@ export function RsvpSection() {
       .map((g, i) =>
         g.dietaryRequirements.trim()
           ? `${g.name || `Guest ${i + 1}`}: ${g.dietaryRequirements.trim()}`
-          : null
+          : null,
       )
       .filter(Boolean)
       .join(" | ");
@@ -283,7 +283,11 @@ export function RsvpSection() {
   }
 
   return (
-    <section id="rsvp" className="section-padding" style={{ backgroundColor: "#c5a46d" }}>
+    <section
+      id="rsvp"
+      className="section-padding"
+      style={{ backgroundColor: "#5b2e6d" }}
+    >
       <div className="max-w-xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -367,7 +371,10 @@ export function RsvpSection() {
 
             {form.attendance === "no" ? (
               <div>
-                <Label htmlFor="name-decline" className="text-sage-dark font-medium">
+                <Label
+                  htmlFor="name-decline"
+                  className="text-sage-dark font-medium"
+                >
                   {t("rsvp.fullName")}
                 </Label>
                 <Input
@@ -407,7 +414,10 @@ export function RsvpSection() {
                 </div>
 
                 {guests.map((guest, index) => (
-                  <div key={index} className="space-y-4 border rounded-lg p-4 bg-muted/20">
+                  <div
+                    key={index}
+                    className="space-y-4 border rounded-lg p-4 bg-muted/20"
+                  >
                     <p className="font-body text-sm font-medium text-sage-dark">
                       {index === 0
                         ? t("rsvp.person1")
@@ -420,7 +430,10 @@ export function RsvpSection() {
                         value={guest.name}
                         onChange={(e) => {
                           const next = [...guests];
-                          next[index] = { ...next[index], name: e.target.value };
+                          next[index] = {
+                            ...next[index],
+                            name: e.target.value,
+                          };
                           setGuests(next);
                         }}
                         className="mt-1 bg-ivory border-[#c5a46d]/30 text-sage-dark"
@@ -428,13 +441,18 @@ export function RsvpSection() {
                     </div>
                     {index === 0 && (
                       <div>
-                        <Label className="text-sage-dark">{t("rsvp.email")}</Label>
+                        <Label className="text-sage-dark">
+                          {t("rsvp.email")}
+                        </Label>
                         <Input
                           type="email"
                           value={guest.email}
                           onChange={(e) => {
                             const next = [...guests];
-                            next[index] = { ...next[index], email: e.target.value };
+                            next[index] = {
+                              ...next[index],
+                              email: e.target.value,
+                            };
                             setGuests(next);
                           }}
                           className="mt-1 bg-ivory border-[#c5a46d]/30 text-sage-dark"
@@ -442,7 +460,9 @@ export function RsvpSection() {
                       </div>
                     )}
                     <div>
-                      <Label className="text-sage-dark">{t("rsvp.dietary")}</Label>
+                      <Label className="text-sage-dark">
+                        {t("rsvp.dietary")}
+                      </Label>
                       <Input
                         value={guest.dietaryRequirements}
                         onChange={(e) => {
@@ -475,7 +495,10 @@ export function RsvpSection() {
                         id="children-yes"
                         className="border-[#c5a46d] text-[#c5a46d]"
                       />
-                      <Label htmlFor="children-yes" className="cursor-pointer text-sage-dark">
+                      <Label
+                        htmlFor="children-yes"
+                        className="cursor-pointer text-sage-dark"
+                      >
                         {t("rsvp.childrenYes")}
                       </Label>
                     </div>
@@ -485,7 +508,10 @@ export function RsvpSection() {
                         id="children-no"
                         className="border-[#c5a46d] text-[#c5a46d]"
                       />
-                      <Label htmlFor="children-no" className="cursor-pointer text-sage-dark">
+                      <Label
+                        htmlFor="children-no"
+                        className="cursor-pointer text-sage-dark"
+                      >
                         {t("rsvp.childrenNo")}
                       </Label>
                     </div>
@@ -518,7 +544,9 @@ export function RsvpSection() {
             )}
 
             <div>
-              <Label className="text-sage-dark font-medium">{t("rsvp.message")}</Label>
+              <Label className="text-sage-dark font-medium">
+                {t("rsvp.message")}
+              </Label>
               <Textarea
                 value={form.message}
                 onChange={(e) => setForm({ ...form, message: e.target.value })}

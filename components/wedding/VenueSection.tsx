@@ -6,7 +6,7 @@ import { t } from "@/lib/wedding/content";
 
 export function VenueSection() {
   return (
-    <section className="section-padding" style={{ backgroundColor: "#c5a46d" }}>
+    <section className="section-padding" style={{ backgroundColor: "#5b2e6d" }}>
       <div className="max-w-3xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -38,29 +38,29 @@ export function VenueSection() {
         >
           <img
             src="/assets/venue-hedsor-DSq2yQw3.png"
-            alt="Finca El Olivar"
+            alt="Hidden Manna Ministry"
             className="w-full max-w-lg h-auto mx-auto mb-2"
             loading="lazy"
           />
           <h3 className="font-display text-3xl md:text-4xl text-sage-dark mb-6 border-b border-gold/20 pb-4">
-            Finca El Olivar
+            Hidden Manna Ministry
           </h3>
 
           <div className="space-y-5 mb-8">
             <div className="flex items-center justify-center gap-3 text-sage-dark">
               <span className="font-body text-base tracking-wide italic opacity-70">
-                {t("events.date")}
+                Saturday, 5th December, 2026
               </span>
               <span className="text-gold/40">·</span>
-              <span className="font-display text-2xl">14:00</span>
+              <span className="font-display text-2xl">8:00 AM</span>
             </div>
             <div className="w-12 h-px bg-gold/30 mx-auto" />
             <div className="flex flex-col items-center gap-1 text-sage-dark">
               <span className="font-body text-base tracking-wide">
-                Camino de los Olivos s/n, Ronda
+                1 Manna Arena Way, Behind Ilesha Garage,
               </span>
               <span className="font-body text-sm tracking-wide opacity-70">
-                Málaga, 29400 – España
+                off New Express Road, Ilesha, Osogbo
               </span>
             </div>
           </div>
@@ -70,7 +70,7 @@ export function VenueSection() {
             style={{ height: "240px" }}
           >
             <iframe
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d12900!2d-5.1663!3d36.7422!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd0d7e4e0b0b0b0b%3A0x1234567890!2sRonda%2C%20M%C3%A1laga!5e0!3m2!1sen!2ses"
+              src="https://www.google.com/maps?q=Hidden%20Manna%20Ministry%20Osogbo&output=embed"
               width="100%"
               height="240"
               style={{
@@ -81,12 +81,12 @@ export function VenueSection() {
               allowFullScreen
               loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"
-              title="Finca El Olivar, Ronda"
+              title="Hidden Manna Ministry, Osogbo"
             />
           </div>
 
           <a
-            href="https://www.google.com/maps/search/?api=1&query=Finca+El+Olivar+Ronda+Malaga+Spain"
+            href="https://maps.google.com/?q=Hidden+Manna+Ministry+Osogbo"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 font-body text-sm tracking-[0.15em] uppercase text-sage-dark/70 hover:text-gold transition-colors border-b border-gold/30 hover:border-gold pb-1"

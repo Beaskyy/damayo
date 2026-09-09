@@ -13,7 +13,7 @@ export function IntroScreen({ onEnter, onStartMusic }: IntroScreenProps) {
   const [showVideo, setShowVideo] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
 
-  const handleClick = () => {
+  const startIntro = useCallback(() => {
     if (phase !== "idle") return;
     setPhase("playing");
     onStartMusic?.();
@@ -21,6 +21,18 @@ export function IntroScreen({ onEnter, onStartMusic }: IntroScreenProps) {
     if (playPromise && typeof playPromise.catch === "function") {
       playPromise.catch(() => {});
     }
+  }, [onStartMusic, phase]);
+
+  useEffect(() => {
+    const timer = window.setTimeout(() => {
+      startIntro();
+    }, 150);
+
+    return () => window.clearTimeout(timer);
+  }, [startIntro]);
+
+  const handleClick = () => {
+    startIntro();
   };
 
   const handleTimeUpdate = () => {
@@ -63,6 +75,7 @@ export function IntroScreen({ onEnter, onStartMusic }: IntroScreenProps) {
         className={`absolute inset-0 w-full h-full object-cover ${videoVisible ? "opacity-100" : "opacity-0"}`}
         style={{ transition: "opacity 50ms ease-out" }}
         onTimeUpdate={handleTimeUpdate}
+        autoPlay
         playsInline
         muted
         preload="auto"

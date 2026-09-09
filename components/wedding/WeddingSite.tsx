@@ -12,10 +12,7 @@ import {
 } from "./WelcomeSection";
 import { VenueSection } from "./VenueSection";
 import { ProgramSection, DressCodeSection } from "./ProgramSection";
-import {
-  PreWeddingEventsSection,
-  AccommodationSection,
-} from "./EventsSections";
+import { PreWeddingEventsSection } from "./EventsSections";
 import { TransportSection, GiftsSection } from "./TransportGiftsSections";
 import { GalleryMarquee, SectionDivider } from "./GalleryMarquee";
 import { RsvpSection } from "./RsvpSection";
@@ -53,9 +50,6 @@ export function WeddingSite() {
             <PreWeddingEventsSection />
             <SectionDivider type="cupid" />
             <TransportSection />
-            <SectionDivider type="matchbox" />
-            <AccommodationSection />
-            <SectionDivider type="locket" />
             <div className="bg-ivory w-full overflow-hidden pb-16 md:pb-20">
               <GalleryMarquee
                 images={secondaryGalleryImages}

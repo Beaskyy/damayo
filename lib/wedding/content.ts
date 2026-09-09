@@ -27,7 +27,8 @@ export const content = {
   "dress.men": "White, Purple & Olive Green",
   "dress.menDesc": "Please dress in the wedding colours of the day.",
   "dress.women": "RSVP",
-  "dress.womenDesc": "Pamilerin 08143229655 | Femi 08160405511",
+  "dress.womenDesc":
+    "ADESINA ADAMS 8102516399 | OYEYINKA OYINDAMOLA 8076240495",
   "accommodation.title": "Accomodation & Travel",
   "accommodation.subtitle":
     "We look forward to celebrating with you. Please plan your journey in advance for a smooth arrival.",
@@ -52,12 +53,14 @@ Time: 11:00 AM | Reception follows immediately`,
   "gifts.title": "Gifts",
   "gifts.text":
     "Your presence is our greatest gift. If you wish to give us something, we will be grateful for your generosity.",
-  "gifts.account1": "Pamilerin – Gift Support",
-  "gifts.account1details": `Account Name: Pamilerin
-Phone: 08143229655`,
-  "gifts.account2": "Femi – Gift Support",
-  "gifts.account2details": `Account Name: Femi
-Phone: 08160405511`,
+  "gifts.account1": "ADESINA ADAMS – Gift Support",
+  "gifts.account1details": `Account Name: ADESINA ADAMS
+Account Number: 8102516399
+Bank: OPAY`,
+  "gifts.account2": "OYEYINKA OYINDAMOLA – Gift Support",
+  "gifts.account2details": `Account Name: OYEYINKA OYINDAMOLA
+Account Number: 8076240495
+Bank: OPAY`,
   "rsvp.title": "RSVP",
   "rsvp.subtitle": "Please let us know if you can celebrate with us",
   "rsvp.attend": "Will you be attending? *",

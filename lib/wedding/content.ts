@@ -10,7 +10,7 @@ export const content = {
   "countdown.seconds": "Seconds",
   "welcome.title": "Welcome!",
   "welcome.text":
-    "We sincerely invite you to join us as we celebrate the beginning of our forever with family and friends in love, laughter, and gratitude.",
+    "We sincerely invite you to join us as we celebrate the beginning of our forever with family and friends in love, laughter, and gratitude.\n\nOur journey began with faith, friendship, and a shared dream, and we are so grateful to celebrate this new chapter surrounded by the people who have shaped our story.",
   "events.title": "The Venue",
   "events.subtitle": "Where we celebrate",
   "events.date": "Saturday, 5th December 2026",
@@ -36,7 +36,7 @@ export const content = {
     "Kindly note the event details and arrival time for both the church service and the engagement ceremony.",
   "info.title": "Event Details",
   "info.subtitle":
-    "Join us for a meaningful celebration filled with faith, joy, and family.",
+    "Join us for a meaningful celebration filled with faith, joy, and family. We would be honoured to celebrate this special day with you and share in the beginning of our forever.",
   "transport.title": "Location & Transportation",
   "transport.fullAddress":
     "Hidden Manna Ministry, 1 Manna Arena Way, Behind Ilesha Garage, off New Express Road, Ilesha, Osogbo",
@@ -49,10 +49,12 @@ Time: 8:00 AM
 Engagement
 Date: Saturday, 5th December, 2026
 Venue: Osamdo House, Km 4, Gbongan-Ibadan Road, Osogbo
-Time: 11:00 AM | Reception follows immediately`,
+Time: 11:00 AM | Reception follows immediately
+
+Please plan to arrive 15-20 minutes early. Parking is available on site and rideshare drop-off is recommended for convenience.`,
   "gifts.title": "Gifts",
   "gifts.text":
-    "Your presence is our greatest gift. If you wish to give us something, we will be grateful for your generosity.",
+    "Your presence is our greatest gift. If you wish to give us something, we will be grateful for your generosity.\n\nIf you would like to contribute financially, the details below are provided for your convenience.",
   "gifts.account1": "ADESINA ADAMS – Gift Support",
   "gifts.account1details": `Account Name: ADESINA ADAMS
 Account Number: 8102516399
@@ -62,7 +64,7 @@ Bank: OPAY`,
 Account Number: 8076240495
 Bank: OPAY`,
   "rsvp.title": "RSVP",
-  "rsvp.subtitle": "Please let us know if you can celebrate with us",
+  "rsvp.subtitle": "Please let us know if you can celebrate with us. We would love to see you there.",
   "rsvp.attend": "Will you be attending? *",
   "rsvp.yes": "Yes, I'll be there",
   "rsvp.no": "Unfortunately, I can't make it",

@@ -64,7 +64,8 @@ Bank: OPAY`,
 Account Number: 8076240495
 Bank: OPAY`,
   "rsvp.title": "RSVP",
-  "rsvp.subtitle": "Please let us know if you can celebrate with us. We would love to see you there.",
+  "rsvp.subtitle":
+    "Please let us know if you can celebrate with us. We would love to see you there.",
   "rsvp.attend": "Will you be attending? *",
   "rsvp.yes": "Yes, I'll be there",
   "rsvp.no": "Unfortunately, I can't make it",

@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { motion } from "framer-motion";
 import { t } from "@/lib/wedding/content";
 
@@ -99,11 +100,14 @@ export function ProgramSection() {
 export function DressCodeSection() {
   return (
     <section className="relative overflow-hidden">
-      <img
+      <Image
         src="/assets/venue-hedsor-front-COdUzTcT.png"
         alt=""
         aria-hidden="true"
-        className="absolute inset-0 w-full h-full object-cover object-center"
+        fill
+        sizes="100vw"
+        className="object-cover object-center"
+        loading="lazy"
       />
       <div className="relative z-10 px-6 md:px-16 py-10 md:py-16">
         <div className="max-w-4xl mx-auto flex justify-center">

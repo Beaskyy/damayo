@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { motion } from "framer-motion";
 import { MapPin } from "lucide-react";
 import { t } from "@/lib/wedding/content";
@@ -36,9 +37,12 @@ export function VenueSection() {
           transition={{ duration: 0.6, delay: 0.1 }}
           className="bg-white rounded-2xl border border-gold/20 p-8 shadow-lg text-center"
         >
-          <img
+          <Image
             src="/assets/venue-hedsor-DSq2yQw3.png"
             alt="Hidden Manna Ministry"
+            width={512}
+            height={425}
+            sizes="(max-width: 768px) 100vw, 512px"
             className="w-full max-w-lg h-auto mx-auto mb-2"
             loading="lazy"
           />

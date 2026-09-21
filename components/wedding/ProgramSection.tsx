@@ -131,7 +131,7 @@ export function DressCodeSection() {
                 RSVP
               </h3>
               <p className="text-sage-dark/70 font-body text-sm italic leading-relaxed max-w-md mx-auto">
-                ADESINA ADAMS 8102516399 | OYEYINKA OYINDAMOLA 8076240495
+                FEMI | 08076451305
               </p>
             </div>
           </motion.div>

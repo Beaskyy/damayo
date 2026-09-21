@@ -28,7 +28,7 @@ export const content = {
   "dress.menDesc": "Please dress in the wedding colours of the day.",
   "dress.women": "RSVP",
   "dress.womenDesc":
-    "ADESINA ADAMS 8102516399 | OYEYINKA OYINDAMOLA 8076240495",
+    "FEMI | 08076451305",
   "accommodation.title": "Accomodation & Travel",
   "accommodation.subtitle":
     "We look forward to celebrating with you. Please plan your journey in advance for a smooth arrival.",

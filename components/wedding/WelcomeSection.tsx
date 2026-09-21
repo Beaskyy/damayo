@@ -5,19 +5,25 @@ import { t } from "@/lib/wedding/content";
 import { GalleryMarquee } from "./GalleryMarquee";
 
 const galleryImages = [
-  "/assets/gallery-1-CndRyTXZ.jpg",
-  "/assets/gallery-2-LJ9SqFT7.jpg",
-  "/assets/gallery-3-BqTMMcNY.jpg",
-  "/assets/gallery-4-D3agzgGx.jpg",
-  "/assets/gallery-5-Ca9X0lht.jpg",
+  "/assets/images/DAMZ_0613copy.jpg",
+  "/assets/images/DAMZ_0618copy.jpg",
+  "/assets/images/DAMZ_0628copy.jpg",
+  "/assets/images/DAMZ_0635copy.jpg",
+  "/assets/images/DAMZ_0641copy.jpg",
+  "/assets/images/DAMZ_0644copy.jpg",
+  "/assets/images/DAMZ_0649copy.jpg",
+  "/assets/images/DAMZ_0653copy.jpg",
 ];
 
 const galleryPositions = [
-  "center 20%",
-  "center 55%",
+  "center 25%",
   "center 30%",
-  "center 40%",
-  "center 35%",
+  "center 25%",
+  "center 30%",
+  "center 25%",
+  "center 30%",
+  "center 25%",
+  "center 30%",
 ];
 
 export function WelcomeSection() {
@@ -59,17 +65,21 @@ export function WelcomeSection() {
 }
 
 export const secondaryGalleryImages = [
-  "/assets/gallery-6-KQCB4EG9.jpg",
-  "/assets/gallery-7-CHFbVCJd.jpg",
-  "/assets/gallery-8-LSBB5t-f.jpg",
-  "/assets/gallery-9-C_h0QLUe.jpg",
-  "/assets/gallery-10-BbneIAac.jpg",
+  "/assets/images/DAMZ_0662copy.jpg",
+  "/assets/images/DAMZ_0669copy.jpg",
+  "/assets/images/DAMZ_0670copy.jpg",
+  "/assets/images/DAMZ_0677copy.jpg",
+  "/assets/images/DAMZ_0681copy.jpg",
+  "/assets/images/DAMZ_0690copy.jpg",
+  "/assets/images/DAMZ_0707copy.jpg",
 ];
 
 export const secondaryGalleryPositions = [
-  "center 40%",
-  "center 35%",
-  "right 50%",
+  "center 25%",
   "center 30%",
-  "right 40%",
+  "center 25%",
+  "center 30%",
+  "center 25%",
+  "center 30%",
+  "center 25%",
 ];

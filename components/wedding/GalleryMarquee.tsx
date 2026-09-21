@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { motion } from "framer-motion";
+import Image from "next/image";
 
 interface GalleryMarqueeProps {
   images: string[];
@@ -43,12 +43,15 @@ export function GalleryMarquee({ images, positions = [] }: GalleryMarqueeProps) 
       {[...images, ...images].map((src, index) => (
         <div
           key={`${src}-${index}`}
-          className="flex-shrink-0 overflow-hidden"
+          className="relative flex-shrink-0 overflow-hidden"
           style={{ height: "340px", width: "240px" }}
         >
-          <img
+          <Image
             src={src}
             alt=""
+            width={240}
+            height={340}
+            sizes="240px"
             className="h-full w-full object-cover"
             style={{
               objectPosition: positions.length
@@ -56,6 +59,7 @@ export function GalleryMarquee({ images, positions = [] }: GalleryMarqueeProps) 
                 : "center center",
             }}
             draggable={false}
+            loading={index < 4 ? "eager" : "lazy"}
           />
         </div>
       ))}
@@ -106,10 +110,13 @@ export function SectionDivider({
   return (
     <div className={wrapperClass}>
       {type === "floral" && <div className="w-24 h-px bg-sage-dark/20 mb-10" />}
-      <img
+      <Image
         src={imageMap[type]}
         alt=""
+        width={160}
+        height={160}
         className={`${sizeClass} h-auto opacity-80`}
+        loading="lazy"
       />
     </div>
   );

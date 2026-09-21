@@ -41,13 +41,13 @@ function RsvpConfirmation({
 
   useEffect(() => {
     if (attendance === "no") {
-      setShowMessage(true);
-      setTimeout(() => {
+      const timer = setTimeout(() => {
+        setShowMessage(true);
         document
           .getElementById("rsvp-confirmation")
           ?.scrollIntoView({ behavior: "smooth", block: "start" });
-      }, 100);
-      return;
+      }, 50);
+      return () => clearTimeout(timer);
     }
 
     const video = videoRef.current;

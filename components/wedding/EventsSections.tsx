@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { motion } from "framer-motion";
 import { t } from "@/lib/wedding/content";
 
@@ -61,10 +62,13 @@ export function PreWeddingEventsSection() {
               transition={{ duration: 0.6, delay: 0.2 + index * 0.1 }}
               className="bg-white rounded-2xl p-6 md:p-8 shadow-lg text-center"
             >
-              <img
+              <Image
                 src={event.illustration}
                 alt=""
+                width={80}
+                height={80}
                 className="w-20 h-auto mx-auto mb-3 opacity-90"
+                loading="lazy"
               />
               <h3
                 className="font-display text-3xl md:text-4xl mb-3"
@@ -136,10 +140,13 @@ export function AccommodationSection() {
   return (
     <section className="section-padding relative overflow-hidden">
       <div className="absolute inset-0">
-        <img
+        <Image
           src="/assets/white-textured-paper-KasY8RAJ.png"
           alt=""
-          className="w-full h-full object-cover"
+          fill
+          sizes="100vw"
+          className="object-cover"
+          loading="lazy"
         />
       </div>
       <div className="max-w-3xl mx-auto relative z-10">

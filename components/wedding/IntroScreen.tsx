@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
+import Image from "next/image";
 import { motion } from "framer-motion";
 
 interface IntroScreenProps {
@@ -61,10 +62,13 @@ export function IntroScreen({ onEnter, onStartMusic }: IntroScreenProps) {
       animate={{ opacity: phase === "fading" ? 0 : 1 }}
       transition={{ duration: 0.8, ease: "easeInOut" }}
     >
-      <img
+      <Image
         src="/assets/intro-poster-new-BU7qGwfU.jpg"
         alt=""
-        className={`absolute inset-0 w-full h-full object-cover ${videoVisible ? "opacity-0" : "opacity-100"}`}
+        fill
+        sizes="100vw"
+        preload={true}
+        className={`object-cover ${videoVisible ? "opacity-0" : "opacity-100"}`}
         style={{ transition: "opacity 50ms ease-out" }}
         draggable={false}
       />
@@ -101,8 +105,6 @@ export function useBackgroundMusic() {
 
     audio.addEventListener("play", onPlay);
     audio.addEventListener("pause", onPause);
-    setIsPlaying(!audio.paused);
-    setIsMuted(audio.muted);
 
     return () => {
       audio.removeEventListener("play", onPlay);

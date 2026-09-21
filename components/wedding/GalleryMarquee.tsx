@@ -5,10 +5,10 @@ import { motion } from "framer-motion";
 
 interface GalleryMarqueeProps {
   images: string[];
-  positions: string[];
+  positions?: string[];
 }
 
-export function GalleryMarquee({ images, positions }: GalleryMarqueeProps) {
+export function GalleryMarquee({ images, positions = [] }: GalleryMarqueeProps) {
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -50,7 +50,11 @@ export function GalleryMarquee({ images, positions }: GalleryMarqueeProps) {
             src={src}
             alt=""
             className="h-full w-full object-cover"
-            style={{ objectPosition: positions[index % positions.length] }}
+            style={{
+              objectPosition: positions.length
+                ? positions[index % positions.length]
+                : "center center",
+            }}
             draggable={false}
           />
         </div>

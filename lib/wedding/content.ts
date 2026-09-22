@@ -24,11 +24,11 @@ export const content = {
   "program.cake": "Cutting the Cake",
   "program.finish": "Finish",
   "dress.title": "Colours of the Day",
-  "dress.men": "White, Purple & Olive Green",
+  "dress.men": "White, Burgundy & Olive Green",
   "dress.menDesc": "Please dress in the wedding colours of the day.",
   "dress.women": "RSVP",
   "dress.womenDesc":
-    "FEMI | 08076451305",
+    "Pamilerin: 08143229655 | Femi: 08076451305",
   "accommodation.title": "Accomodation & Travel",
   "accommodation.subtitle":
     "We look forward to celebrating with you. Please plan your journey in advance for a smooth arrival.",

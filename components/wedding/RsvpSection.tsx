@@ -286,7 +286,7 @@ export function RsvpSection() {
     <section
       id="rsvp"
       className="section-padding"
-      style={{ backgroundColor: "#5b2e6d" }}
+      style={{ backgroundColor: "#5B1425" }}
     >
       <div className="max-w-xl mx-auto">
         <motion.div
@@ -305,6 +305,19 @@ export function RsvpSection() {
           >
             {t("rsvp.subtitle")}
           </p>
+          <div className="mt-3 flex flex-wrap items-center justify-center gap-x-3 gap-y-1 text-xs md:text-sm font-body text-white/80">
+            <span>Pamilerin:{" "}
+              <a href="tel:08143229655" className="font-semibold text-white hover:underline">
+                08143229655
+              </a>
+            </span>
+            <span className="text-white/40">|</span>
+            <span>Femi:{" "}
+              <a href="tel:08076451305" className="font-semibold text-white hover:underline">
+                08076451305
+              </a>
+            </span>
+          </div>
         </motion.div>
 
         <motion.div

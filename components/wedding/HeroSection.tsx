@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { motion } from "framer-motion";
 import { ChevronDown, Volume2, VolumeX } from "lucide-react";
 import { t } from "@/lib/wedding/content";
@@ -26,15 +27,16 @@ export function HeroSection({
   return (
     <section className="relative min-h-screen flex flex-col overflow-hidden bg-white">
       <div className="absolute inset-0 overflow-hidden">
-        <video
-          autoPlay
-          muted
-          loop
-          playsInline
-          className="absolute inset-0 w-full h-full object-cover"
-          src="/assets/hero-video-BkP1eoiB.mp4"
+        <Image
+          src="/assets/hero-couple-0662.jpg"
+          alt={`${family1} & ${family2}`}
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover"
+          style={{ objectFit: "cover", objectPosition: "center top" }}
         />
-        <div className="absolute inset-0 bg-black/30" />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/55 via-black/35 to-black/65" />
       </div>
 
       <div className="relative z-10 flex-1 flex flex-col">

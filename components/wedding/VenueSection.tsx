@@ -7,7 +7,7 @@ import { t } from "@/lib/wedding/content";
 
 export function VenueSection() {
   return (
-    <section className="section-padding" style={{ backgroundColor: "#5b2e6d" }}>
+    <section className="section-padding" style={{ backgroundColor: "#5B1425" }}>
       <div className="max-w-3xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 20 }}

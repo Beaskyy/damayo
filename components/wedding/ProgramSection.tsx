@@ -123,7 +123,7 @@ export function DressCodeSection() {
             </h2>
             <div className="mb-8">
               <h3 className="font-display text-3xl md:text-4xl text-sage-dark mb-2">
-                White, Purple & Olive Green
+                White, Burgundy & Olive Green
               </h3>
               <p className="text-sage-dark/70 font-body text-sm italic leading-relaxed max-w-md mx-auto">
                 Please dress in the wedding colours of the day.
@@ -134,8 +134,26 @@ export function DressCodeSection() {
               <h3 className="font-display text-3xl md:text-4xl text-sage-dark mb-2">
                 RSVP
               </h3>
-              <p className="text-sage-dark/70 font-body text-sm italic leading-relaxed max-w-md mx-auto">
-                FEMI | 08076451305
+              <p className="text-sage-dark/80 font-body text-sm md:text-base italic leading-relaxed max-w-md mx-auto flex flex-col sm:flex-row items-center justify-center gap-1 sm:gap-4">
+                <span>
+                  Pamilerin:{" "}
+                  <a
+                    href="tel:08143229655"
+                    className="hover:underline font-semibold not-italic text-sage-dark"
+                  >
+                    08143229655
+                  </a>
+                </span>
+                <span className="hidden sm:inline text-sage/40">|</span>
+                <span>
+                  Femi:{" "}
+                  <a
+                    href="tel:08076451305"
+                    className="hover:underline font-semibold not-italic text-sage-dark"
+                  >
+                    08076451305
+                  </a>
+                </span>
               </p>
             </div>
           </motion.div>

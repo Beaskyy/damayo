@@ -31,7 +31,7 @@ export const content = {
     "Pamilerin: 08143229655 | Femi: 08076451305",
   "accommodation.title": "Accomodation & Travel",
   "accommodation.subtitle":
-    "We look forward to celebrating with you. Please plan your journey in advance for a smooth arrival.",
+    "We look forward to celebrating with you.",
   "accommodation.recommend":
     "Kindly note the event details and arrival time for both the church service and the engagement ceremony.",
   "info.title": "Event Details",
@@ -49,9 +49,7 @@ Time: 8:00 AM
 Engagement
 Date: Saturday, 5th December, 2026
 Venue: Osamdo House, Km 4, Gbongan-Ibadan Road, Osogbo
-Time: 11:00 AM | Reception follows immediately
-
-Please plan to arrive 15-20 minutes early. Parking is available on site and rideshare drop-off is recommended for convenience.`,
+Time: 11:00 AM | Reception follows immediately`,
   "gifts.title": "Gifts",
   "gifts.text":
     "Your presence is our greatest gift. If you wish to give us something, we will be grateful for your generosity.\n\nIf you would like to contribute financially, the details below are provided for your convenience.",

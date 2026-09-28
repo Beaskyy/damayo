@@ -16,7 +16,7 @@ const preWeddingEvents = [
     title: "Engagement",
     date: "Saturday, 5th December, 2026",
     time: "11:00 AM | Reception follows immediately",
-    location: "Osamdo House, Km 4, Gbongan-Ibadan Road, Osogbo",
+    location: "OSAMDO House, opposite Dream Center Church, Africa Osogbo, Osun state.",
     illustration: "/assets/teacup-illustration-LM5oRWej.png",
   },
 ];

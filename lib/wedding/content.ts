@@ -17,12 +17,9 @@ export const content = {
   "events.openMaps": "Open in Maps",
   "program.title": "Day Programme",
   "program.date": "Saturday, 5th December 2026",
-  "program.arrival": "Arrival",
-  "program.ceremony": "Ceremony",
-  "program.cocktails": "Cocktails",
-  "program.dinner": "Dinner",
-  "program.cake": "Cutting the Cake",
-  "program.finish": "Finish",
+  "program.church": "Arrival at Church",
+  "program.traditional": "Traditional",
+  "program.reception": "Reception",
   "dress.title": "Colours of the Day",
   "dress.men": "White, Burgundy & Olive Green",
   "dress.menDesc": "Please dress in the wedding colours of the day.",
@@ -49,7 +46,7 @@ Time: 8:00 AM
 Engagement
 Date: Saturday, 5th December, 2026
 Venue: Osamdo House, Km 4, Gbongan-Ibadan Road, Osogbo
-Time: 11:00 AM | Reception follows immediately`,
+Time: 11:00 AM | Reception: 12:00 PM`,
   "gifts.title": "Gifts",
   "gifts.text":
     "Your presence is our greatest gift. If you wish to give us something, we will be grateful for your generosity.\n\nIf you would like to contribute financially, the details below are provided for your convenience.",

@@ -15,7 +15,7 @@ const preWeddingEvents = [
   {
     title: "Engagement",
     date: "Saturday, 5th December, 2026",
-    time: "11:00 AM | Reception follows immediately",
+    time: "11:00 AM | Reception: 12:00 PM",
     location: "OSAMDO House, opposite Dream Center Church, Africa Osogbo, Osun state.",
     illustration: "/assets/teacup-illustration-LM5oRWej.png",
   },

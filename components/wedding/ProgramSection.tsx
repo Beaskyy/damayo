@@ -6,23 +6,20 @@ import { t } from "@/lib/wedding/content";
 
 const schedule = [
   {
-    time: "14:00",
-    labelKey: "program.arrival" as const,
+    time: "8:00 AM",
+    labelKey: "program.church" as const,
     side: "right" as const,
   },
   {
-    time: "14:30",
-    labelKey: "program.ceremony" as const,
+    time: "11:00 AM",
+    labelKey: "program.traditional" as const,
     side: "left" as const,
   },
   {
-    time: "16:00",
-    labelKey: "program.cocktails" as const,
+    time: "12:00 PM",
+    labelKey: "program.reception" as const,
     side: "right" as const,
   },
-  { time: "18:00", labelKey: "program.dinner" as const, side: "left" as const },
-  { time: "20:00", labelKey: "program.cake" as const, side: "right" as const },
-  { time: "00:00", labelKey: "program.finish" as const, side: "left" as const },
 ];
 
 export function ProgramSection() {
@@ -61,7 +58,7 @@ export function ProgramSection() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.4, delay: 0.1 + index * 0.08 }}
-                className="relative flex items-center py-3"
+                className="relative flex items-center py-5 md:py-6"
               >
                 <div className="absolute left-1/2 -translate-x-1/2 w-4 h-px bg-sage-dark/40" />
                 <div className="w-1/2 pr-8 text-right">

@@ -1,6 +1,7 @@
 import fs from "fs/promises";
 import path from "path";
 import crypto from "crypto";
+import { supabase, isSupabaseConfigured } from "@/lib/supabase";
 
 export interface WeddingComment {
   id: string;
@@ -43,10 +44,48 @@ const INITIAL_COMMENTS: WeddingComment[] = [
 ];
 
 export async function getComments(): Promise<WeddingComment[]> {
+  // If Supabase is connected, fetch from cloud database
+  if (isSupabaseConfigured && supabase) {
+    try {
+      const { data, error } = await supabase
+        .from("comments")
+        .select("id, name, message, created_at")
+        .order("created_at", { ascending: false });
+
+      if (!error && data) {
+        if (data.length > 0) {
+          return data.map((item) => ({
+            id: String(item.id),
+            name: item.name || "Guest",
+            message: item.message || "",
+            createdAt: item.created_at || new Date().toISOString(),
+          }));
+        } else {
+          // Cloud DB is empty, seed it in background
+          try {
+            await supabase.from("comments").insert(
+              INITIAL_COMMENTS.map((c) => ({
+                name: c.name,
+                message: c.message,
+                created_at: c.createdAt,
+              }))
+            );
+          } catch {}
+          return INITIAL_COMMENTS;
+        }
+      } else if (error) {
+        console.warn("Supabase query error:", error.message);
+      }
+    } catch (err) {
+      console.error("Supabase fetch exception, falling back to local store:", err);
+    }
+  }
+
+  // Local JSON fallback
   try {
     const data = await fs.readFile(COMMENTS_FILE_PATH, "utf-8");
     const parsed = JSON.parse(data);
-    if (Array.isArray(parsed)) {
+    if (Array.isArray(parsed) && parsed.length > 0) {
       return parsed.sort(
         (a, b) =>
           new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
@@ -54,18 +93,6 @@ export async function getComments(): Promise<WeddingComment[]> {
     }
     return INITIAL_COMMENTS;
   } catch (error) {
-    // If file doesn't exist, create it with initial comments
-    try {
-      const dir = path.dirname(COMMENTS_FILE_PATH);
-      await fs.mkdir(dir, { recursive: true });
-      await fs.writeFile(
-        COMMENTS_FILE_PATH,
-        JSON.stringify(INITIAL_COMMENTS, null, 2),
-        "utf-8"
-      );
-    } catch {
-      // Ignore write errors if in read-only environment
-    }
     return INITIAL_COMMENTS;
   }
 }
@@ -74,12 +101,40 @@ export async function addComment(
   name: string,
   message: string
 ): Promise<WeddingComment> {
-  const currentComments = await getComments();
+  const trimmedName = name.trim();
+  const trimmedMessage = message.trim();
 
+  // If Supabase is configured, insert into Supabase
+  if (isSupabaseConfigured && supabase) {
+    try {
+      const { data, error } = await supabase
+        .from("comments")
+        .insert([{ name: trimmedName, message: trimmedMessage }])
+        .select("id, name, message, created_at")
+        .single();
+
+      if (!error && data) {
+        return {
+          id: String(data.id),
+          name: data.name,
+          message: data.message,
+          createdAt: data.created_at || new Date().toISOString(),
+        };
+      }
+      if (error) {
+        console.error("Supabase insert error:", error.message, error.details);
+      }
+    } catch (err) {
+      console.error("Supabase insert exception:", err);
+    }
+  }
+
+  // Fallback to local file
+  const currentComments = await getComments();
   const newComment: WeddingComment = {
     id: crypto.randomUUID(),
-    name: name.trim(),
-    message: message.trim(),
+    name: trimmedName,
+    message: trimmedMessage,
     createdAt: new Date().toISOString(),
   };
 

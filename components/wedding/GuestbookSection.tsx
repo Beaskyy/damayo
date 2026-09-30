@@ -135,7 +135,9 @@ export function GuestbookSection() {
     let isMounted = true;
     async function fetchComments() {
       try {
-        const res = await fetch("/api/comments");
+        const res = await fetch("/api/comments", {
+          cache: "no-store",
+        });
         if (res.ok) {
           const data = await res.json();
           if (isMounted && Array.isArray(data.comments) && data.comments.length > 0) {

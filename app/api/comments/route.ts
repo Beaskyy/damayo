@@ -1,6 +1,9 @@
 import { NextResponse } from "next/server";
 import { getComments, addComment } from "@/lib/wedding/comments";
 
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
 export async function GET() {
   try {
     const comments = await getComments();

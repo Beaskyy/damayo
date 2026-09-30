@@ -8,11 +8,10 @@ import {
   Heart,
   Quote,
   Send,
-  Sparkles,
   CheckCircle2,
-  PenLine,
   X,
-  MessageCircleHeart,
+  MessageSquarePlus,
+  PenLine,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -52,14 +51,6 @@ const FALLBACK_COMMENTS: WeddingComment[] = [
   },
 ];
 
-const QUICK_BLESSINGS = [
-  "Wishing you endless joy & peace! 🥂",
-  "May God richly bless your holy union! 🙏",
-  "Happy Married Life Oyindamola & Ayomide! 💍",
-  "Here is to a beautiful forever together! ✨",
-  "So thrilled and happy for you both! 💕",
-];
-
 function formatDate(isoString: string): string {
   try {
     const d = new Date(isoString);
@@ -80,26 +71,13 @@ function getInitials(name: string): string {
   return (parts[0][0] + (parts[1]?.[0] || "")).toUpperCase();
 }
 
-interface ConfettiPiece {
-  id: number;
-  x: number;
-  y: number;
-  rotation: number;
-  scale: number;
-  color: string;
-}
-
 export function GuestbookSection() {
   const [comments, setComments] = useState<WeddingComment[]>(FALLBACK_COMMENTS);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isHovered, setIsHovered] = useState(false);
-  const [isFormOpen, setIsFormOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [newlyAddedId, setNewlyAddedId] = useState<string | null>(null);
-
-  // Responsive cards per view
   const [visibleCards, setVisibleCards] = useState(3);
-
-  // Likes / reactions map (stored in localStorage for delight)
   const [likes, setLikes] = useState<Record<string, number>>({});
 
   // Form state
@@ -110,100 +88,70 @@ export function GuestbookSection() {
   const [formSuccess, setFormSuccess] = useState(false);
   const [formError, setFormError] = useState<string | null>(null);
 
-  // Confetti animation state
-  const [confetti, setConfetti] = useState<ConfettiPiece[]>([]);
-
-  // Calculate cards per view on resize
   useEffect(() => {
-    const updateVisibleCards = () => {
-      if (window.innerWidth < 640) {
-        setVisibleCards(1);
-      } else if (window.innerWidth < 1024) {
-        setVisibleCards(2);
-      } else {
-        setVisibleCards(3);
-      }
+    const update = () => {
+      if (window.innerWidth < 640) setVisibleCards(1);
+      else if (window.innerWidth < 1024) setVisibleCards(2);
+      else setVisibleCards(3);
     };
-
-    updateVisibleCards();
-    window.addEventListener("resize", updateVisibleCards);
-    return () => window.removeEventListener("resize", updateVisibleCards);
+    update();
+    window.addEventListener("resize", update);
+    return () => window.removeEventListener("resize", update);
   }, []);
 
-  // Fetch comments on mount
   useEffect(() => {
-    let isMounted = true;
-    async function fetchComments() {
-      try {
-        const res = await fetch("/api/comments", {
-          cache: "no-store",
-        });
-        if (res.ok) {
-          const data = await res.json();
-          if (isMounted && Array.isArray(data.comments) && data.comments.length > 0) {
-            setComments(data.comments);
-          }
-        }
-      } catch (err) {
-        console.error("Failed to load wishes:", err);
-      }
-    }
-    fetchComments();
+    let mounted = true;
+    fetch("/api/comments", { cache: "no-store" })
+      .then((r) => r.json())
+      .then((data) => {
+        if (mounted && Array.isArray(data.comments) && data.comments.length > 0)
+          setComments(data.comments);
+      })
+      .catch(() => {});
 
-    // Load stored likes
     try {
-      const storedLikes = localStorage.getItem("damayo_wishes_likes");
-      if (storedLikes) setLikes(JSON.parse(storedLikes));
+      const stored = localStorage.getItem("damayo_wishes_likes");
+      if (stored) setLikes(JSON.parse(stored));
     } catch {}
 
     return () => {
-      isMounted = false;
+      mounted = false;
     };
   }, []);
 
   const total = comments.length;
   const maxIndex = Math.max(0, total - visibleCards);
 
-  // Carousel navigation
   const handleNext = useCallback(() => {
-    setCurrentIndex((prev) => (prev >= maxIndex ? 0 : prev + 1));
+    setCurrentIndex((p) => (p >= maxIndex ? 0 : p + 1));
   }, [maxIndex]);
 
   const handlePrev = useCallback(() => {
-    setCurrentIndex((prev) => (prev <= 0 ? maxIndex : prev - 1));
+    setCurrentIndex((p) => (p <= 0 ? maxIndex : p - 1));
   }, [maxIndex]);
 
-  // Autoplay
   useEffect(() => {
-    if (isHovered || isFormOpen || total <= visibleCards) return;
-    const interval = setInterval(() => {
-      handleNext();
-    }, 5500);
-    return () => clearInterval(interval);
-  }, [isHovered, isFormOpen, total, visibleCards, handleNext]);
+    if (isHovered || isModalOpen || total <= visibleCards) return;
+    const id = setInterval(handleNext, 6000);
+    return () => clearInterval(id);
+  }, [isHovered, isModalOpen, total, visibleCards, handleNext]);
 
-  // Touch Swipe Handling
   const touchStartX = useRef<number | null>(null);
-  const handleTouchStart = (e: React.TouchEvent) => {
+  const onTouchStart = (e: React.TouchEvent) => {
     touchStartX.current = e.touches[0].clientX;
   };
-  const handleTouchEnd = (e: React.TouchEvent) => {
+  const onTouchEnd = (e: React.TouchEvent) => {
     if (touchStartX.current === null) return;
-    const touchEndX = e.changedTouches[0].clientX;
-    const diff = touchStartX.current - touchEndX;
-    if (diff > 50) {
-      handleNext();
-    } else if (diff < -50) {
-      handlePrev();
-    }
+    const diff = touchStartX.current - e.changedTouches[0].clientX;
+    if (diff > 50) handleNext();
+    else if (diff < -50) handlePrev();
     touchStartX.current = null;
   };
 
   const handleLike = (id: string, e: React.MouseEvent) => {
     e.stopPropagation();
     setLikes((prev) => {
-      const current = prev[id] || 0;
-      const updated = { ...prev, [id]: current + 1 };
+      const updated = { ...prev, [id]: (prev[id] || 0) + 1 };
       try {
         localStorage.setItem("damayo_wishes_likes", JSON.stringify(updated));
       } catch {}
@@ -211,37 +159,10 @@ export function GuestbookSection() {
     });
   };
 
-  const triggerConfetti = () => {
-    const colors = ["#5B1425", "#c5a46d", "#f7ecd2", "#b33951", "#ffffff"];
-    const pieces: ConfettiPiece[] = Array.from({ length: 32 }, (_, i) => ({
-      id: i,
-      x: (Math.random() - 0.5) * 400,
-      y: -Math.random() * 260 - 40,
-      rotation: Math.random() * 360,
-      scale: Math.random() * 0.7 + 0.6,
-      color: colors[Math.floor(Math.random() * colors.length)],
-    }));
-    setConfetti(pieces);
-    setTimeout(() => setConfetti([]), 2600);
-  };
-
-  const handleQuickBlessing = (phrase: string) => {
-    setMessage((prev) => {
-      if (!prev.trim()) return phrase;
-      return `${prev} ${phrase}`;
-    });
-  };
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!name.trim()) {
-      setFormError("Please enter your name.");
-      return;
-    }
-    if (!message.trim()) {
-      setFormError("Please write a message or blessing.");
-      return;
-    }
+    if (!name.trim()) return setFormError("Please enter your name.");
+    if (!message.trim()) return setFormError("Please write a message.");
 
     setSubmitting(true);
     setFormError(null);
@@ -270,19 +191,17 @@ export function GuestbookSection() {
         createdAt: new Date().toISOString(),
       };
 
-      // Optimistic update & immediately show the new wish at index 0
       setComments((prev) => [newComment, ...prev]);
       setNewlyAddedId(newComment.id);
       setCurrentIndex(0);
       setName("");
       setMessage("");
       setFormSuccess(true);
-      triggerConfetti();
 
       setTimeout(() => {
         setFormSuccess(false);
-        setIsFormOpen(false);
-      }, 3500);
+        setIsModalOpen(false);
+      }, 3000);
     } catch (err) {
       setFormError(err instanceof Error ? err.message : "Something went wrong.");
     } finally {
@@ -291,407 +210,422 @@ export function GuestbookSection() {
   };
 
   return (
-    <section
-      id="guestbook"
-      className="py-16 md:py-24 px-4 sm:px-6 relative overflow-hidden"
-      style={{
-        backgroundImage: "url(/assets/white-textured-paper-KasY8RAJ.png)",
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-      }}
-    >
-      {/* Decorative ambient corner flourishes */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-48 h-px bg-gradient-to-r from-transparent via-[#c5a46d]/40 to-transparent" />
-
-      <div className="max-w-6xl mx-auto">
-        {/* Section Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-10 md:mb-12"
-        >
-          {/* Subtitle Badge */}
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#5B1425]/5 border border-[#c5a46d]/40 mb-3 shadow-[0_2px_8px_rgba(91,20,37,0.04)]">
-            <Sparkles className="w-3.5 h-3.5 text-[#c5a46d]" />
-            <span className="text-[11px] uppercase tracking-[0.25em] font-body text-[#5B1425] font-semibold">
+    <>
+      {/* ── Section ── */}
+      <section
+        id="guestbook"
+        className="section-padding"
+        style={{
+          backgroundImage: "url(/assets/white-textured-paper-KasY8RAJ.png)",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+        }}
+      >
+        <div className="max-w-5xl mx-auto">
+          {/* Header — matches ProgramSection / WelcomeSection pattern */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="text-center mb-12"
+          >
+            <h2 className="font-display text-4xl md:text-7xl text-sage-dark mb-2">
+              {t("wishes.title")}
+            </h2>
+            <p className="text-gold font-body tracking-wide font-medium">
               {t("wishes.subtitle")}
-            </span>
-          </div>
+            </p>
+            <p className="text-sage-dark/80 font-body text-lg leading-relaxed italic max-w-lg mx-auto mt-6">
+              {t("wishes.intro")}
+            </p>
 
-          {/* Majestic Script Title */}
-          <h2 className="font-display text-5xl md:text-7xl lg:text-8xl text-sage-dark mb-3 tracking-normal">
-            {t("wishes.title")}
-          </h2>
-
-          <p className="text-sage-dark/80 font-body text-sm md:text-base max-w-xl mx-auto leading-relaxed px-4">
-            {t("wishes.intro")}
-          </p>
-
-          {/* Stats & Action Bar */}
-          <div className="mt-7 flex flex-wrap items-center justify-center gap-3">
-            <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-white/80 border border-[#c5a46d]/30 text-xs font-body text-sage-dark/70 shadow-xs">
-              <MessageCircleHeart className="w-3.5 h-3.5 text-[#5B1425]" />
-              <span className="font-medium text-sage-dark">
-                {total} {total === 1 ? "blessing" : "blessings"} shared
+            {/* Action button inside the section header so it is directly visible to anyone viewing the guestbook */}
+            <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
+              <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/90 border border-gold/40 text-xs sm:text-sm font-body text-sage-dark shadow-xs">
+                <MessageSquarePlus className="w-4 h-4 text-gold" />
+                <span className="font-semibold text-sage-dark">
+                  {total} {total === 1 ? "Wish" : "Wishes"} Shared
+                </span>
               </span>
-            </span>
 
-            <Button
-              type="button"
-              onClick={() => {
-                setIsFormOpen((prev) => !prev);
-                setFormError(null);
-              }}
-              className="group inline-flex items-center gap-2 rounded-full px-5 md:px-6 py-2 md:py-2.5 text-xs md:text-sm font-body font-medium transition-all duration-300 shadow-sm hover:shadow-md cursor-pointer"
-              style={{
-                backgroundColor: isFormOpen ? "#5B1425" : "#ffffff",
-                color: isFormOpen ? "#ffffff" : "#5B1425",
-                border: "1px solid rgba(197, 164, 109, 0.5)",
-              }}
-            >
-              {isFormOpen ? (
-                <>
-                  <X className="w-4 h-4 text-[#c5a46d]" />
-                  <span>Close Wish Form</span>
-                </>
-              ) : (
-                <>
-                  <PenLine className="w-4 h-4 text-[#c5a46d] group-hover:rotate-12 transition-transform duration-200" />
-                  <span>Leave a Wish for the Couple</span>
-                </>
-              )}
-            </Button>
-          </div>
-        </motion.div>
-
-        {/* Collapsible Wish Form Card */}
-        <AnimatePresence>
-          {isFormOpen && (
-            <motion.div
-              initial={{ opacity: 0, height: 0, scale: 0.97 }}
-              animate={{ opacity: 1, height: "auto", scale: 1 }}
-              exit={{ opacity: 0, height: 0, scale: 0.97 }}
-              transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-              className="overflow-hidden mb-12"
-            >
-              <div className="max-w-xl mx-auto bg-white/95 backdrop-blur-md rounded-2xl p-6 sm:p-8 shadow-xl border border-[#c5a46d]/40 relative">
-                {/* Gold accent line */}
-                <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-[#c5a46d]/20 via-[#5B1425] to-[#c5a46d]/20" />
-
-                {/* Confetti Container */}
-                {confetti.length > 0 && (
-                  <div className="absolute inset-0 pointer-events-none overflow-hidden flex items-center justify-center z-30">
-                    {confetti.map((piece) => (
-                      <motion.div
-                        key={piece.id}
-                        initial={{ opacity: 1, x: 0, y: 0, scale: piece.scale, rotate: 0 }}
-                        animate={{
-                          opacity: 0,
-                          x: piece.x,
-                          y: piece.y,
-                          rotate: piece.rotation,
-                        }}
-                        transition={{ duration: 1.8, ease: "easeOut" }}
-                        className="absolute w-2.5 h-2.5 rounded-sm"
-                        style={{ backgroundColor: piece.color }}
-                      />
-                    ))}
-                  </div>
-                )}
-
-                {formSuccess ? (
-                  <motion.div
-                    initial={{ opacity: 0, scale: 0.92 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    className="py-8 text-center"
-                  >
-                    <div className="w-14 h-14 rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center mx-auto mb-3 border border-emerald-200 shadow-xs">
-                      <CheckCircle2 className="w-7 h-7" />
-                    </div>
-                    <h3 className="font-display text-4xl text-sage-dark mb-1">
-                      {t("wishes.success")}
-                    </h3>
-                    <p className="text-sage-dark/70 text-sm font-body max-w-sm mx-auto">
-                      Your warm wish has been added to the guestbook and is now displayed below!
-                    </p>
-                  </motion.div>
-                ) : (
-                  <form onSubmit={handleSubmit} className="space-y-5">
-                    {/* Honeypot field for bot protection */}
-                    <div
-                      className="absolute -left-[9999px] opacity-0"
-                      aria-hidden="true"
-                    >
-                      <label htmlFor="guestbook-website">Website</label>
-                      <input
-                        type="text"
-                        id="guestbook-website"
-                        name="website"
-                        tabIndex={-1}
-                        autoComplete="off"
-                        value={websiteHoneypot}
-                        onChange={(e) => setWebsiteHoneypot(e.target.value)}
-                      />
-                    </div>
-
-                    <div>
-                      <Label
-                        htmlFor="wish-name"
-                        className="text-sage-dark font-medium text-sm flex items-center justify-between"
-                      >
-                        <span>{t("wishes.nameLabel")}</span>
-                      </Label>
-                      <Input
-                        id="wish-name"
-                        type="text"
-                        placeholder={t("wishes.namePlaceholder")}
-                        value={name}
-                        onChange={(e) => setName(e.target.value)}
-                        maxLength={70}
-                        required
-                        className="mt-1.5 bg-ivory border-[#c5a46d]/40 text-sage-dark focus-visible:ring-[#5B1425] text-sm md:text-base py-2.5"
-                      />
-                    </div>
-
-                    <div>
-                      <Label
-                        htmlFor="wish-message"
-                        className="text-sage-dark font-medium text-sm"
-                      >
-                        {t("wishes.messageLabel")}
-                      </Label>
-
-                      {/* Quick Blessing Prompts */}
-                      <div className="mt-2 mb-2 flex flex-wrap gap-1.5">
-                        <span className="text-[11px] text-[#5B1425] font-semibold uppercase tracking-wider flex items-center mr-1">
-                          Quick Inspiration:
-                        </span>
-                        {QUICK_BLESSINGS.map((phrase) => (
-                          <button
-                            key={phrase}
-                            type="button"
-                            onClick={() => handleQuickBlessing(phrase)}
-                            className="text-[11px] font-body bg-ivory hover:bg-[#5B1425] hover:text-white text-sage-dark/80 px-2.5 py-1 rounded-full border border-[#c5a46d]/30 transition-all duration-200 cursor-pointer active:scale-95"
-                          >
-                            {phrase}
-                          </button>
-                        ))}
-                      </div>
-
-                      <Textarea
-                        id="wish-message"
-                        placeholder={t("wishes.messagePlaceholder")}
-                        value={message}
-                        onChange={(e) => setMessage(e.target.value)}
-                        maxLength={1000}
-                        required
-                        className="bg-ivory border-[#c5a46d]/40 text-sage-dark min-h-[110px] focus-visible:ring-[#5B1425] text-sm md:text-base"
-                      />
-                      <div className="flex justify-between items-center mt-1 text-[11px] text-sage-dark/50">
-                        <span>Max 1,000 characters</span>
-                        <span>{message.length} / 1000</span>
-                      </div>
-                    </div>
-
-                    {formError && (
-                      <p className="text-destructive text-sm font-body">{formError}</p>
-                    )}
-
-                    <Button
-                      type="submit"
-                      disabled={submitting}
-                      className="w-full text-white font-body text-sm py-3 rounded-lg transition-all duration-200 flex items-center justify-center gap-2 cursor-pointer shadow-sm hover:shadow"
-                      style={{ backgroundColor: "#5B1425" }}
-                    >
-                      {submitting ? (
-                        <>
-                          <span className="inline-block w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin mr-1" />
-                          <span>{t("wishes.sending")}</span>
-                        </>
-                      ) : (
-                        <>
-                          <Send className="w-4 h-4 text-[#c5a46d]" />
-                          <span className="font-semibold">{t("wishes.send")}</span>
-                        </>
-                      )}
-                    </Button>
-                  </form>
-                )}
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
-
-        {/* Carousel Showcase Container */}
-        <div
-          onMouseEnter={() => setIsHovered(true)}
-          onMouseLeave={() => setIsHovered(false)}
-          onTouchStart={handleTouchStart}
-          onTouchEnd={handleTouchEnd}
-          className="relative"
-        >
-          {total === 0 ? (
-            <div className="bg-white/80 rounded-2xl p-12 text-center border border-[#c5a46d]/20 max-w-md mx-auto">
-              <p className="text-sage-dark/70 font-body">{t("wishes.noWishes")}</p>
-            </div>
-          ) : (
-            <div className="overflow-hidden py-3">
-              {/* Sliding Track */}
-              <motion.div
-                animate={{
-                  x: `-${currentIndex * (100 / visibleCards)}%`,
+              <Button
+                type="button"
+                onClick={() => {
+                  setIsModalOpen(true);
+                  setFormError(null);
+                  setFormSuccess(false);
                 }}
-                transition={{
-                  type: "spring",
-                  stiffness: 260,
-                  damping: 28,
-                  mass: 0.8,
-                }}
-                className="flex"
+                className="inline-flex items-center gap-2 rounded-full px-6 sm:px-8 py-3 text-sm sm:text-base font-body font-medium bg-sage-dark hover:bg-sage-dark/90 text-white shadow-md hover:shadow-xl transition-all duration-300 cursor-pointer"
               >
-                {comments.map((comment) => {
-                  const commentLikes = likes[comment.id] || 0;
-                  const isNew = comment.id === newlyAddedId;
+                <PenLine className="w-4 h-4 text-gold" />
+                <span>Leave a Wish for the Couple</span>
+              </Button>
+            </div>
+          </motion.div>
 
-                  return (
-                    <div
-                      key={comment.id}
-                      style={{
-                        flex: `0 0 ${100 / visibleCards}%`,
-                        maxWidth: `${100 / visibleCards}%`,
-                      }}
-                      className="px-2.5 sm:px-3"
-                    >
-                      <div
-                        className={`h-full min-h-[300px] sm:min-h-[320px] rounded-2xl bg-white/95 backdrop-blur-sm border transition-all duration-300 flex flex-col justify-between p-6 sm:p-7 relative shadow-[0_4px_20px_rgba(0,0,0,0.03)] hover:shadow-[0_12px_32px_rgba(91,20,37,0.08)] hover:-translate-y-1 group ${
-                          isNew
-                            ? "border-[#5B1425] ring-2 ring-[#c5a46d]/40"
-                            : "border-[#c5a46d]/30 hover:border-[#c5a46d]/70"
-                        }`}
-                      >
-                        {/* Decorative Top Accent Line */}
-                        <div className="absolute top-0 left-6 right-6 h-[2px] bg-gradient-to-r from-transparent via-[#c5a46d]/40 to-transparent group-hover:via-[#5B1425]/60 transition-all duration-300" />
+          {/* Carousel */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.1 }}
+          >
+            <div
+              onMouseEnter={() => setIsHovered(true)}
+              onMouseLeave={() => setIsHovered(false)}
+              onTouchStart={onTouchStart}
+              onTouchEnd={onTouchEnd}
+              className="relative"
+            >
+              {total === 0 ? (
+                <div className="bg-white/80 backdrop-blur-sm border border-gold/20 rounded-2xl p-12 text-center shadow-lg max-w-md mx-auto">
+                  <p className="text-sage-dark/70 font-body text-lg italic">
+                    {t("wishes.noWishes")}
+                  </p>
+                </div>
+              ) : (
+                <div className="overflow-hidden">
+                  <motion.div
+                    animate={{ x: `-${currentIndex * (100 / visibleCards)}%` }}
+                    transition={{
+                      type: "spring" as const,
+                      stiffness: 260,
+                      damping: 28,
+                      mass: 0.8,
+                    }}
+                    className="flex"
+                  >
+                    {comments.map((comment) => {
+                      const commentLikes = likes[comment.id] || 0;
+                      const isNew = comment.id === newlyAddedId;
 
-                        {/* Top Metadata Row */}
-                        <div>
-                          <div className="flex items-center justify-between mb-4">
-                            <div className="flex items-center gap-1.5">
-                              <Quote className="w-5 h-5 text-[#c5a46d]/70 flex-shrink-0" />
-                              {isNew ? (
-                                <span className="text-[10px] uppercase tracking-wider font-semibold font-body bg-[#5B1425] text-white px-2 py-0.5 rounded-full">
-                                  New Wish
-                                </span>
-                              ) : (
-                                <span className="text-[10px] uppercase tracking-[0.2em] font-semibold font-body text-[#c5a46d]">
-                                  Blessing
-                                </span>
-                              )}
+                      return (
+                        <div
+                          key={comment.id}
+                          style={{
+                            flex: `0 0 ${100 / visibleCards}%`,
+                            maxWidth: `${100 / visibleCards}%`,
+                          }}
+                          className="px-2 sm:px-3"
+                        >
+                          <div
+                            className={`h-full min-h-[300px] rounded-2xl bg-white/80 backdrop-blur-sm border shadow-lg p-6 sm:p-7 flex flex-col justify-between transition-all duration-300 hover:shadow-xl hover:-translate-y-1 group ${
+                              isNew
+                                ? "border-gold ring-1 ring-gold/30"
+                                : "border-gold/20"
+                            }`}
+                          >
+                            {/* Top */}
+                            <div>
+                              <div className="flex items-center justify-between mb-4">
+                                <Quote className="w-5 h-5 text-gold/60" />
+                                <button
+                                  type="button"
+                                  onClick={(e) => handleLike(comment.id, e)}
+                                  className="inline-flex items-center gap-1 text-sage-dark/50 hover:text-sage-dark transition-colors cursor-pointer"
+                                >
+                                  <Heart
+                                    className={`w-4 h-4 transition-transform duration-200 ${
+                                      commentLikes > 0
+                                        ? "fill-gold text-gold scale-110"
+                                        : ""
+                                    }`}
+                                  />
+                                  {commentLikes > 0 && (
+                                    <span className="text-xs font-body font-medium text-gold">
+                                      {commentLikes}
+                                    </span>
+                                  )}
+                                </button>
+                              </div>
+
+                              <p
+                                className="font-body text-sage-dark text-base sm:text-lg leading-relaxed italic"
+                                style={{
+                                  display: "-webkit-box",
+                                  WebkitLineClamp: 6,
+                                  WebkitBoxOrient: "vertical",
+                                  overflow: "hidden",
+                                }}
+                              >
+                                &ldquo;{comment.message}&rdquo;
+                              </p>
                             </div>
 
-                            {/* Like / Heart Reaction */}
-                            <button
-                              type="button"
-                              onClick={(e) => handleLike(comment.id, e)}
-                              title="Send love to this wish"
-                              className="inline-flex items-center gap-1 text-xs font-body text-sage-dark/60 hover:text-[#5B1425] transition-colors p-1 rounded-full hover:bg-ivory cursor-pointer active:scale-125"
-                            >
-                              <Heart
-                                className={`w-4 h-4 transition-transform duration-200 ${
-                                  commentLikes > 0
-                                    ? "fill-[#5B1425] text-[#5B1425] scale-110"
-                                    : "text-sage-dark/40"
-                                }`}
-                              />
-                              {commentLikes > 0 && (
-                                <span className="text-[11px] font-medium text-[#5B1425]">
-                                  {commentLikes}
-                                </span>
-                              )}
-                            </button>
-                          </div>
-
-                          {/* Message Body */}
-                          <p className="font-serif text-base sm:text-lg text-sage-dark/90 leading-relaxed italic line-clamp-6">
-                            &ldquo;{comment.message}&rdquo;
-                          </p>
-                        </div>
-
-                        {/* Bottom Author Section */}
-                        <div className="pt-4 mt-4 border-t border-[#c5a46d]/20 flex items-center gap-3">
-                          {/* Monogram Seal */}
-                          <div
-                            className="w-10 h-10 rounded-full flex items-center justify-center font-serif font-bold text-xs text-white shadow-xs border border-[#c5a46d]/40 flex-shrink-0"
-                            style={{
-                              backgroundColor: "#5B1425",
-                            }}
-                          >
-                            {getInitials(comment.name)}
-                          </div>
-
-                          <div className="min-w-0 flex-1">
-                            <h4 className="font-body font-semibold text-sm sm:text-base text-sage-dark truncate group-hover:text-[#5B1425] transition-colors">
-                              {comment.name}
-                            </h4>
-                            {comment.createdAt && (
-                              <p className="text-[11px] text-sage-dark/50 font-body">
-                                {formatDate(comment.createdAt)}
-                              </p>
-                            )}
+                            {/* Author */}
+                            <div className="pt-4 mt-auto border-t border-gold/20 flex items-center gap-3">
+                              <div className="w-9 h-9 rounded-full bg-sage-dark flex items-center justify-center text-white text-xs font-body font-medium flex-shrink-0">
+                                {getInitials(comment.name)}
+                              </div>
+                              <div className="min-w-0 flex-1">
+                                <h4 className="font-body font-medium text-sm text-sage-dark truncate">
+                                  {comment.name}
+                                </h4>
+                                {comment.createdAt && (
+                                  <p className="text-xs text-sage-dark/50 font-body">
+                                    {formatDate(comment.createdAt)}
+                                  </p>
+                                )}
+                              </div>
+                            </div>
                           </div>
                         </div>
-                      </div>
-                    </div>
-                  );
-                })}
-              </motion.div>
-            </div>
-          )}
+                      );
+                    })}
+                  </motion.div>
+                </div>
+              )}
 
-          {/* Carousel Controls */}
-          {total > visibleCards && (
-            <div className="flex items-center justify-between mt-8 px-2 max-w-sm mx-auto">
-              {/* Prev Button */}
-              <button
-                type="button"
-                onClick={handlePrev}
-                aria-label="Previous wishes"
-                className="w-10 h-10 rounded-full bg-white border border-[#c5a46d]/40 text-sage-dark hover:bg-[#5B1425] hover:text-white hover:border-[#5B1425] flex items-center justify-center transition-all duration-200 shadow-sm active:scale-95 cursor-pointer"
-              >
-                <ChevronLeft className="w-5 h-5" />
-              </button>
-
-              {/* Dot Indicators */}
-              <div className="flex items-center gap-1.5 px-3">
-                {Array.from({ length: maxIndex + 1 }).map((_, idx) => (
+              {/* Navigation */}
+              {total > visibleCards && (
+                <div className="flex items-center justify-center gap-6 mt-10">
                   <button
-                    key={idx}
                     type="button"
-                    onClick={() => setCurrentIndex(idx)}
-                    aria-label={`Go to slide ${idx + 1}`}
-                    className={`transition-all duration-300 rounded-full cursor-pointer ${
-                      idx === currentIndex
-                        ? "w-6 h-2 bg-[#5B1425]"
-                        : "w-2 h-2 bg-[#c5a46d]/40 hover:bg-[#c5a46d]"
-                    }`}
-                  />
-                ))}
-              </div>
+                    onClick={handlePrev}
+                    aria-label="Previous"
+                    className="w-10 h-10 rounded-full bg-white border border-gold/30 text-sage-dark hover:bg-sage-dark hover:text-white hover:border-sage-dark flex items-center justify-center transition-all duration-200 shadow-sm cursor-pointer"
+                  >
+                    <ChevronLeft className="w-5 h-5" />
+                  </button>
 
-              {/* Next Button */}
+                  <div className="flex items-center gap-1.5">
+                    {Array.from({ length: Math.min(maxIndex + 1, 8) }).map(
+                      (_, idx) => (
+                        <button
+                          key={idx}
+                          type="button"
+                          onClick={() => setCurrentIndex(idx)}
+                          className={`transition-all duration-300 rounded-full cursor-pointer ${
+                            idx === currentIndex
+                              ? "w-6 h-2 bg-sage-dark"
+                              : "w-2 h-2 bg-gold/40 hover:bg-gold"
+                          }`}
+                        />
+                      )
+                    )}
+                    {maxIndex + 1 > 8 && (
+                      <span className="text-xs text-sage-dark/40 font-body ml-1">
+                        +{maxIndex + 1 - 8}
+                      </span>
+                    )}
+                  </div>
+
+                  <button
+                    type="button"
+                    onClick={handleNext}
+                    aria-label="Next"
+                    className="w-10 h-10 rounded-full bg-white border border-gold/30 text-sage-dark hover:bg-sage-dark hover:text-white hover:border-sage-dark flex items-center justify-center transition-all duration-200 shadow-sm cursor-pointer"
+                  >
+                    <ChevronRight className="w-5 h-5" />
+                  </button>
+                </div>
+              )}
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* ── Floating Action Button (Always visible on screen at bottom-right) ── */}
+      <div
+        style={{
+          position: "fixed",
+          bottom: "24px",
+          right: "24px",
+          zIndex: 9999,
+        }}
+      >
+        <motion.button
+          type="button"
+          onClick={() => {
+            setIsModalOpen(true);
+            setFormError(null);
+            setFormSuccess(false);
+          }}
+          whileHover={{ scale: 1.06 }}
+          whileTap={{ scale: 0.94 }}
+          className="group relative flex items-center justify-center rounded-full focus:outline-none cursor-pointer select-none"
+          style={{ width: "86px", height: "86px" }}
+          aria-label="Leave a wish"
+        >
+          {/* Subtle pulse ring behind button */}
+          <div className="absolute -inset-1 rounded-full bg-gold/30 animate-ping opacity-60 pointer-events-none" />
+
+          {/* Backplate */}
+          <div className="absolute inset-0 rounded-full bg-white/95 backdrop-blur-md shadow-2xl border-2 border-gold/50 group-hover:border-gold transition-colors" />
+
+          {/* Rotating text with Framer Motion */}
+          <motion.div
+            className="absolute inset-0 w-full h-full pointer-events-none"
+            animate={{ rotate: 360 }}
+            transition={{ repeat: Infinity, duration: 16, ease: "linear" }}
+          >
+            <svg
+              className="w-full h-full"
+              viewBox="0 0 100 100"
+            >
+              <path
+                id="guestbookTextPath"
+                d="M 50,50 m -36,0 a 36,36 0 1,1 72,0 a 36,36 0 1,1 -72,0"
+                fill="none"
+              />
+              <text
+                className="fill-sage-dark font-body font-semibold uppercase"
+                style={{ fontSize: "8.5px", letterSpacing: "2.6px" }}
+              >
+                <textPath href="#guestbookTextPath" startOffset="0%">
+                  ✦ LEAVE A WISH ✦ SIGN GUESTBOOK ✦
+                </textPath>
+              </text>
+            </svg>
+          </motion.div>
+
+          {/* Center icon */}
+          <div
+            className="relative z-10 rounded-full bg-sage-dark text-white flex items-center justify-center shadow-lg group-hover:bg-[#5B1425] transition-colors duration-300"
+            style={{ width: "46px", height: "46px" }}
+          >
+            <MessageSquarePlus className="w-5 h-5" />
+          </div>
+        </motion.button>
+      </div>
+
+      {/* ── Modal ── */}
+      <AnimatePresence>
+        {isModalOpen && (
+          <div
+            className="fixed inset-0 flex items-center justify-center p-4 sm:p-6 overflow-y-auto"
+            style={{ position: "fixed", inset: 0, zIndex: 10000 }}
+          >
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setIsModalOpen(false)}
+              className="fixed inset-0 bg-black/50 backdrop-blur-sm cursor-pointer"
+            />
+
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95, y: 16 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 16 }}
+              transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+              className="relative w-full max-w-lg bg-white rounded-2xl p-6 sm:p-8 shadow-xl border border-gold/20 z-10 my-auto"
+            >
+              {/* Close */}
               <button
                 type="button"
-                onClick={handleNext}
-                aria-label="Next wishes"
-                className="w-10 h-10 rounded-full bg-white border border-[#c5a46d]/40 text-sage-dark hover:bg-[#5B1425] hover:text-white hover:border-[#5B1425] flex items-center justify-center transition-all duration-200 shadow-sm active:scale-95 cursor-pointer"
+                onClick={() => setIsModalOpen(false)}
+                className="absolute top-4 right-4 w-8 h-8 rounded-full bg-ivory text-sage-dark hover:bg-sage-dark hover:text-white flex items-center justify-center transition-colors cursor-pointer"
+                aria-label="Close"
               >
-                <ChevronRight className="w-5 h-5" />
+                <X className="w-4 h-4" />
               </button>
-            </div>
-          )}
-        </div>
-      </div>
-    </section>
+
+              {formSuccess ? (
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.92 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  className="py-10 text-center"
+                >
+                  <div className="w-14 h-14 rounded-full bg-ivory text-sage-dark flex items-center justify-center mx-auto mb-4 border border-gold/30">
+                    <CheckCircle2 className="w-7 h-7 text-gold" />
+                  </div>
+                  <h3 className="font-display text-4xl text-sage-dark mb-2">
+                    {t("wishes.success")}
+                  </h3>
+                  <p className="text-sage-dark/70 font-body text-sm italic max-w-sm mx-auto">
+                    Your wish is now displayed on the guestbook.
+                  </p>
+                </motion.div>
+              ) : (
+                <form onSubmit={handleSubmit} className="space-y-6">
+                  <div className="text-center mb-2">
+                    <h3 className="font-display text-3xl md:text-4xl text-sage-dark mb-1">
+                      {t("wishes.title")}
+                    </h3>
+                    <p className="text-gold font-body tracking-wide font-medium text-sm">
+                      {t("wishes.subtitle")}
+                    </p>
+                  </div>
+
+                  <div className="w-12 h-px bg-gold/20 mx-auto" />
+
+                  {/* Honeypot */}
+                  <div className="absolute -left-[9999px] opacity-0" aria-hidden="true">
+                    <label htmlFor="gb-website">Website</label>
+                    <input
+                      type="text"
+                      id="gb-website"
+                      name="website"
+                      tabIndex={-1}
+                      autoComplete="off"
+                      value={websiteHoneypot}
+                      onChange={(e) => setWebsiteHoneypot(e.target.value)}
+                    />
+                  </div>
+
+                  <div>
+                    <Label htmlFor="wish-name" className="text-sage-dark font-medium text-base">
+                      {t("wishes.nameLabel")}
+                    </Label>
+                    <Input
+                      id="wish-name"
+                      type="text"
+                      placeholder={t("wishes.namePlaceholder")}
+                      value={name}
+                      onChange={(e) => setName(e.target.value)}
+                      maxLength={70}
+                      required
+                      className="mt-2 bg-ivory border-[#c5a46d]/30 text-sage-dark"
+                    />
+                  </div>
+
+                  <div>
+                    <Label htmlFor="wish-message" className="text-sage-dark font-medium text-base">
+                      {t("wishes.messageLabel")}
+                    </Label>
+                    <Textarea
+                      id="wish-message"
+                      placeholder={t("wishes.messagePlaceholder")}
+                      value={message}
+                      onChange={(e) => setMessage(e.target.value)}
+                      maxLength={1000}
+                      required
+                      className="mt-2 bg-ivory border-[#c5a46d]/30 text-sage-dark min-h-[100px]"
+                    />
+                    <p className="text-right text-xs text-sage-dark/50 font-body mt-1">
+                      {message.length} / 1000
+                    </p>
+                  </div>
+
+                  {formError && (
+                    <p className="text-destructive text-sm font-body">{formError}</p>
+                  )}
+
+                  <Button
+                    type="submit"
+                    disabled={submitting}
+                    className="w-full bg-sage-dark hover:bg-sage-dark/90 text-white cursor-pointer"
+                  >
+                    {submitting ? (
+                      <>
+                        <span className="inline-block w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin mr-2" />
+                        {t("wishes.sending")}
+                      </>
+                    ) : (
+                      <>
+                        <Send className="w-4 h-4 mr-2" />
+                        {t("wishes.send")}
+                      </>
+                    )}
+                  </Button>
+                </form>
+              )}
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
+    </>
   );
 }

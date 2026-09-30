@@ -92,6 +92,20 @@ Bank: OPAY`,
   "confirm.addCalendar": "Add to Calendar",
   "confirm.plansChange":
     "If your plans change and you can no longer attend, please let us know as soon as possible.",
+  "wishes.subtitle": "Messages of Love",
+  "wishes.title": "Warm Wishes & Guestbook",
+  "wishes.intro":
+    "Leave your prayers, love, and heartfelt wishes for Oyindamola & Ayomide as they begin this joyous journey together.",
+  "wishes.leaveWish": "Leave a Wish",
+  "wishes.nameLabel": "Your Name / Family Name *",
+  "wishes.namePlaceholder": "e.g. Uncle Segun or Kemi & Dapo",
+  "wishes.messageLabel": "Your Message & Blessing *",
+  "wishes.messagePlaceholder":
+    "Share your love, prayers, or happy congratulations for the couple...",
+  "wishes.send": "Post Wish",
+  "wishes.sending": "Sending...",
+  "wishes.success": "Thank you! Your heartfelt wish has been posted.",
+  "wishes.noWishes": "Be the first to send warm wishes to the couple!",
 } as const;
 
 export type ContentKey = keyof typeof content;

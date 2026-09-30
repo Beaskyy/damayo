@@ -126,7 +126,8 @@ export function MusicToggle({
       animate={{ opacity: 1, scale: 1 }}
       transition={{ duration: 0.5, delay: 1.5 }}
       onClick={onToggle}
-      className="fixed bottom-6 right-6 z-40 w-12 h-12 rounded-full bg-white/90 backdrop-blur-sm border border-gold/30 shadow-lg flex items-center justify-center text-sage-dark hover:bg-white hover:scale-110 transition-all duration-300"
+      className="fixed bottom-6 left-6 z-40 w-12 h-12 rounded-full bg-white/95 backdrop-blur-sm border-2 border-[#c5a46d] shadow-xl flex items-center justify-center text-[#5B1425] hover:bg-[#5B1425] hover:text-white hover:scale-110 transition-all duration-300 cursor-pointer"
+      style={{ position: "fixed", bottom: "24px", left: "24px", zIndex: 9999 }}
       aria-label={isMuted ? "Unmute" : "Mute"}
     >
       {isMuted ? (

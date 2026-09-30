@@ -16,6 +16,7 @@ import { PreWeddingEventsSection } from "./EventsSections";
 import { TransportSection, GiftsSection } from "./TransportGiftsSections";
 import { GalleryMarquee, SectionDivider } from "./GalleryMarquee";
 import { RsvpSection } from "./RsvpSection";
+import { GuestbookSection } from "./GuestbookSection";
 import { FooterSection } from "./FooterSection";
 
 export function WeddingSite() {
@@ -59,6 +60,8 @@ export function WeddingSite() {
             <GiftsSection />
             <SectionDivider type="swans" />
             <RsvpSection />
+            <SectionDivider type="locket" />
+            <GuestbookSection />
             <SectionDivider type="rings" />
             <FooterSection
               name1={weddingConfig.couple_name_1}

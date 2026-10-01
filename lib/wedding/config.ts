@@ -8,9 +8,9 @@ export const weddingConfig = {
   wedding_date: "2026-12-05",
   venue_name: "Hidden Manna Ministry",
   venue_address:
-    "1 Manna Arena Way, Behind Ilesha Garage, off New Express Road, Ilesha, Osogbo",
+    "Hidden Manna Ministry, 1 Manna Arena Way, Behind Ilesha Garage, off New Express Road, Osogbo",
   venue_location:
-    "Hidden Manna Ministry, 1 Manna Arena Way, Behind Ilesha Garage, off New Express Road, Ilesha, Osogbo",
+    "Hidden Manna Ministry, 1 Manna Arena Way, Behind Ilesha Garage, off New Express Road, Osogbo",
   engagement_venue: "Osamdo House, Km 4, Gbongan-Ibadan Road, Osogbo",
   timezone: "Africa/Lagos",
 } as const;

@@ -9,7 +9,7 @@ const preWeddingEvents = [
     title: "Church Service",
     date: "Saturday, 5th December, 2026",
     time: "8:00 AM",
-    location: "Hidden Manna Ministry, 1 Manna Arena Way, Ilesha, Osogbo",
+    location: "Hidden Manna Ministry, 1 Manna Arena Way, Behind Ilesha Garage, off New Express Road, Osogbo",
     illustration: "/assets/sunday-lunch-illustration-Dn7RcvEs.png",
   },
   {

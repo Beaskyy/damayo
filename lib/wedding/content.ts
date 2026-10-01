@@ -36,11 +36,11 @@ export const content = {
     "Join us for a meaningful celebration filled with faith, joy, and family. We would be honoured to celebrate this special day with you and share in the beginning of our forever.",
   "transport.title": "Location & Transportation",
   "transport.fullAddress":
-    "Hidden Manna Ministry, 1 Manna Arena Way, Behind Ilesha Garage, off New Express Road, Ilesha, Osogbo",
+    "Hidden Manna Ministry, 1 Manna Arena Way, Behind Ilesha Garage, off New Express Road, Osogbo",
   "transport.byCarDetails": `Church Service
 Date: Saturday, 5th December, 2026
 Venue: Hidden Manna Ministry
-Address: 1 Manna Arena Way, Behind Ilesha Garage, off New Express Road, Ilesha, Osogbo
+Address: Hidden Manna Ministry, 1 Manna Arena Way, Behind Ilesha Garage, off New Express Road, Osogbo
 Time: 8:00 AM
 
 Engagement

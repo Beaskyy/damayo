@@ -312,7 +312,7 @@ export function RsvpSection() {
               </a>
             </span>
             <span className="text-white/40">|</span>
-            <span>Femi:{" "}
+            <span> Femi:{" "}
               <a href="tel:08076451305" className="font-semibold text-white hover:underline">
                 08076451305
               </a>
